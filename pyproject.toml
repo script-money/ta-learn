@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "ta-learn"
+version = "0.1.0"
+description = ""
+authors = ["scriptmoney <hello@script.money>"]
+readme = "README.md"
+packages = [{include = "ta_learn"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pandas = "^1.5.1"
+ccxt = "^2.1.93"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
