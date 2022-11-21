@@ -12,6 +12,9 @@ pandas = "^1.5.1"
 ccxt = "^2.1.93"
 
 
+[tool.poetry.group.dev.dependencies]
+black = "^22.10.0"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
