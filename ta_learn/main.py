@@ -1,15 +1,12 @@
 import ccxt
 import os
-from datetime import datetime, timezone, timedelta
 import time
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 # define type ohlvc
 OHLVC = list[int | float]
 DATA_DIR = "./data"
-
-
-def utc_offset(offset):
-    return timezone(timedelta(seconds=offset))
 
 
 binance = ccxt.binance(
@@ -29,7 +26,7 @@ if all_pairs is None:
     exit(1)
 filter_pairs = filter(lambda x: x.endswith("USDT") or x.endswith("BUSD"), all_pairs)
 time_interval = "1d"
-# pair:str = next(filter_pairs)
+
 for pair in filter_pairs:
     data: list[OHLVC] = binance.fetch_ohlcv(pair, time_interval)
     pair_str: str = pair.replace("/", "-")
@@ -41,8 +38,8 @@ for pair in filter_pairs:
                 f.write("\n")
                 for row in data:
                     readable_time = datetime.fromtimestamp(
-                        row[0] / 1000, tz=utc_offset(8 * 60 * 60)
-                    ).strftime("%Y-%m-%d %H:%M:%S")
+                        row[0] / 1000, tz=ZoneInfo("Asia/Shanghai")
+                    )
                     line = (
                         f"{readable_time},{row[1]},{row[2]},{row[3]},{row[4]},{row[5]}"
                     )
