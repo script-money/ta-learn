@@ -3,11 +3,10 @@ import os
 import time
 from datetime import datetime
 from zoneinfo import ZoneInfo
+from config import DATA_DIR, PAIRS_TO_FETCH
 
 # define type ohlvc
 OHLVC = list[int | float]
-DATA_DIR = "./data"
-
 
 binance = ccxt.binance(
     {
@@ -20,11 +19,15 @@ binance = ccxt.binance(
 
 # get all pair from binance
 binance.load_markets()
-all_pairs = binance.symbols
+all_pairs: list[str] | None = binance.symbols
 if all_pairs is None:
     print("Error: No pairs found")
     exit(1)
-filter_pairs = filter(lambda x: x.endswith("USDT") or x.endswith("BUSD"), all_pairs)
+if len(PAIRS_TO_FETCH) != 0:
+    filter_pairs = filter(lambda x: x in PAIRS_TO_FETCH, all_pairs)
+else:
+    filter_pairs = filter(lambda x: x.endswith("USDT") or x.endswith("BUSD"), all_pairs)
+
 time_interval = "1d"
 
 for pair in filter_pairs:
@@ -37,7 +40,7 @@ for pair in filter_pairs:
                 f.write("time,open,high,low,close,volume")
                 f.write("\n")
                 for row in data:
-                    readable_time = datetime.fromtimestamp(
+                    readable_time = datetime.fromtimestamp(  # type: ignore
                         row[0] / 1000, tz=ZoneInfo("Asia/Shanghai")
                     )
                     line = (
