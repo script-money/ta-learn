@@ -4,9 +4,7 @@ import time
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from config import DATA_DIR, PAIRS_TO_FETCH
-
-# define type ohlvc
-OHLVC = list[int | float]
+from types_ import OHLVC
 
 binance = ccxt.binance(
     {
