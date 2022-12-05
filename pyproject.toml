@@ -10,6 +10,8 @@ packages = [{include = "ta_learn"}]
 python = "^3.11"
 pandas = "^1.5.1"
 ccxt = "^2.1.93"
+numpy = "^1.23.5"
+matplotlib = "^3.6.2"
 
 
 [tool.poetry.group.dev.dependencies]
